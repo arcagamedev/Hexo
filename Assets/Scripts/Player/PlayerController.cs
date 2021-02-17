@@ -5,20 +5,34 @@ public class PlayerController : MonoBehaviour
 {
     #region Variables
     [SerializeField] private Player player;
+    private static PlayerController instance;
     private SpriteRenderer newSkin;
     private float newSpeed;
+
+    private string nameSceneMenu = "01 - Menu";
+    private string nameSceneGame = "02 - Game";
     #endregion
-    
+
     #region Mono
     private void Awake() {
+        DontDestroyOnLoad(gameObject);
+        if (instance == null)
+		{
+            instance = this;
+        }
+		else
+		{
+            Destroy(gameObject);
+		}
+        
         this.newSkin = GetComponentInChildren<SpriteRenderer>();
     }
 
     private void Update() {
         ConfigsPlayer();
         MovementPlayer();
-        Scene sceneGame = SceneManager.GetSceneByName("Game");
-        Scene sceneMenu = SceneManager.GetSceneByName("Menu");
+        Scene sceneGame = SceneManager.GetSceneByName(nameSceneGame);
+        Scene sceneMenu = SceneManager.GetSceneByName(nameSceneMenu);
         if (sceneGame.isLoaded)
         {
             this.gameObject.SetActive(true);

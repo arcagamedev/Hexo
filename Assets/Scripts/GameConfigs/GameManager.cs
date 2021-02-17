@@ -4,19 +4,22 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     #region Variables
-    private GameManager instance;
-    private GameObject playerObj;
-    private GameObject player;
+    private static GameManager instance;
+    //private string nameSceneMenu = "01 - Menu";
+    private string nameSceneGame = "02 - Game";
+    [SerializeField] private GameObject player;
     #endregion
     
     #region Mono
     private void Awake() {
-        this.player = GameObject.FindGameObjectWithTag("Player");
-        DontDestroyOnLoad(this.gameObject);
-        if(this.instance == null) {
-            this.instance = this;
-        } else{
-            Destroy(this.gameObject);
+        DontDestroyOnLoad(gameObject);
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
 
@@ -27,7 +30,7 @@ public class GameManager : MonoBehaviour
 
     #region Detect Scene Load
     private void DetectSceneLoad(){
-        Scene sceneGame = SceneManager.GetSceneByName("Game");
+        Scene sceneGame = SceneManager.GetSceneByName(nameSceneGame);
 
         if (sceneGame.isLoaded)
         {
