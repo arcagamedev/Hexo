@@ -1,67 +1,50 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
     #region Variables
     [SerializeField] private Player player;
-    private static PlayerController instance;
+    private GameManager gm;
     private SpriteRenderer newSkin;
     private float newSpeed;
-
-    private string nameSceneMenu = "01 - Menu";
-    private string nameSceneGame = "02 - Game";
     #endregion
 
     #region Mono
-    private void Awake() {
-        DontDestroyOnLoad(gameObject);
-        if (instance == null)
-		{
-            instance = this;
-        }
-		else
-		{
-            Destroy(gameObject);
-		}
-        
+    private void Awake()
+    {
+        this.gm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
         this.newSkin = GetComponentInChildren<SpriteRenderer>();
     }
 
-    private void Update() {
+    private void Update()
+    {
         ConfigsPlayer();
-        MovementPlayer();
-        Scene sceneGame = SceneManager.GetSceneByName(nameSceneGame);
-        Scene sceneMenu = SceneManager.GetSceneByName(nameSceneMenu);
-        if (sceneGame.isLoaded)
+        if (this.gm.instance.gameStart == true)
         {
-            this.gameObject.SetActive(true);
-        }
-
-        if (sceneMenu.isLoaded)
-        {
-            this.gameObject.SetActive(false);
+            MovementPlayer();
         }
     }
     #endregion
 
     #region Configs Player
-    private void ConfigsPlayer() {
+    private void ConfigsPlayer()
+    {
         this.newSkin.sprite = this.player.skinPlayer;
         this.newSpeed = player.speed;
     }
     #endregion
 
     #region Movement Player
-    private void MovementPlayer() {
+    private void MovementPlayer()
+    {
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            this.transform.RotateAround(this.gameObject.transform.position, Vector3.back, this.newSpeed);
+            this.transform.Rotate(Vector3.back * this.newSpeed);
         }
 
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            this.transform.RotateAround(this.gameObject.transform.position, Vector3.forward, this.newSpeed);
+            this.transform.Rotate(Vector3.forward * this.newSpeed);
         }
     }
     #endregion

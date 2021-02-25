@@ -4,18 +4,68 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     #region Variables
-    private static GameManager instance;
-    //private string nameSceneMenu = "01 - Menu";
-    private string nameSceneGame = "02 - Game";
-    [SerializeField] private GameObject player;
+    //Instance this
+    private static GameManager _instance;
+    public GameManager instance
+    {
+        get { return _instance; }
+        set { _instance = value; }
+    }
+
+    //Player Instance
+    [SerializeField] private GameObject playerPrefab = null;
+    private bool _isInstance = true;
+    public bool isInstance
+    {
+        get { return _isInstance; }
+        set { _isInstance = value; }
+    }
+
+    //Scenes
+    private string nameSceneMenu = "Menu";
+    private string nameSceneGame = "Game";
+
+    //High Score
+    private int valueHighScores;
+    private int _highScores = 0;
+    public int highScores
+    {
+        get { return _highScores; }
+        set { _highScores = value; }
+    }
+
+    //Game States
+    [SerializeField] private bool _gameOver;
+    public bool gameOver
+    {
+        get { return _gameOver; }
+        set { _gameOver = value; }
+    }
+
+    [SerializeField] private bool _gameStart;
+    public bool gameStart
+    {
+        get { return _gameStart; }
+        set { _gameStart = value; }
+    }
+
+    private bool _gameRestart;
+    public bool gameRestart
+    {
+        get { return _gameRestart; }
+        set { _gameRestart = value; }
+    }
+
+
     #endregion
-    
+
     #region Mono
-    private void Awake() {
+    private void Awake()
+    {
         DontDestroyOnLoad(gameObject);
-        if (instance == null)
+        if (_instance == null)
         {
-            instance = this;
+            _instance = this;
         }
         else
         {
@@ -23,19 +73,39 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Update() {
-        DetectSceneLoad();
+    private void Update()
+    {
+        LoadPlayerInGame();
+        HighScores();
     }
     #endregion
 
-    #region Detect Scene Load
-    private void DetectSceneLoad(){
-        Scene sceneGame = SceneManager.GetSceneByName(nameSceneGame);
-
-        if (sceneGame.isLoaded)
+    #region  Load Player in Game
+    private void LoadPlayerInGame()
+    {
+        if (SceneManager.GetSceneByName(this.nameSceneGame).isLoaded && this._isInstance == true)
         {
-            this.player.SetActive(true);
+            Instantiate(this.playerPrefab, Vector3.zero, Quaternion.identity);
+            this._isInstance = false;
+            this._gameStart = true;
+            this._gameOver = false;
         }
+        else if (SceneManager.GetSceneByName(this.nameSceneMenu).isLoaded && this._isInstance == false)
+        {
+            this._isInstance = true;
+        }
+        else if (this._gameRestart == true)
+        {
+            this._isInstance = true;
+            this._gameRestart = false;
+        }
+    }
+    #endregion
+
+    #region High Scores
+    private void HighScores()
+    {
+        this._highScores = PlayerPrefs.GetInt("Scores", this.valueHighScores);
     }
     #endregion
 }

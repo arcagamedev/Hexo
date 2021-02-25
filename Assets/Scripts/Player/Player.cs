@@ -11,7 +11,7 @@ public class Player : ScriptableObject
         set { _namePlayer = value; }
     }
     #endregion
-    
+
     #region Skin Player
     [SerializeField] private Sprite _skinPlayer;
     public Sprite skinPlayer
@@ -29,5 +29,5 @@ public class Player : ScriptableObject
         set { _speed = value; }
     }
     #endregion
-    
+
 }
