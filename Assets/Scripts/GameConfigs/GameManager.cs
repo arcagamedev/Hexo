@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    #region Variables
+    #region Variable Instance
     //Instance this
     private static GameManager _instance;
     public GameManager instance
@@ -11,8 +11,9 @@ public class GameManager : MonoBehaviour
         get { return _instance; }
         set { _instance = value; }
     }
+    #endregion
 
-    //Player Instance
+    #region Variables Player Instance
     [SerializeField] private GameObject playerPrefab = null;
     private bool _isInstance = true;
     public bool isInstance
@@ -20,12 +21,16 @@ public class GameManager : MonoBehaviour
         get { return _isInstance; }
         set { _isInstance = value; }
     }
-
-    //Scenes
+    #endregion
+    #region Variables Player Selection
+    private PlayerSelection playerSelection;
+    #endregion
+    #region Variables Scene Names
     private string nameSceneMenu = "Menu";
     private string nameSceneGame = "Game";
+    #endregion
 
-    //High Score
+    #region Variables for High Score
     private int valueHighScores;
     private int _highScores = 0;
     public int highScores
@@ -33,8 +38,9 @@ public class GameManager : MonoBehaviour
         get { return _highScores; }
         set { _highScores = value; }
     }
+    #endregion
 
-    //Game States
+    #region Variable Game States
     [SerializeField] private bool _gameOver;
     public bool gameOver
     {
@@ -55,8 +61,6 @@ public class GameManager : MonoBehaviour
         get { return _gameRestart; }
         set { _gameRestart = value; }
     }
-
-
     #endregion
 
     #region Mono
