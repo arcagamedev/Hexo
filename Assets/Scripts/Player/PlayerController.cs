@@ -3,12 +3,7 @@
 public class PlayerController : MonoBehaviour
 {
     #region Variables
-    [SerializeField] private Player _player;
-    public Player player
-    {
-        get { return _player; }
-        set { _player = value; }
-    }
+    [SerializeField] private Player player;
     private PlayerController _instance;
     public PlayerController instance
     {
@@ -29,9 +24,10 @@ public class PlayerController : MonoBehaviour
         get { return _isLeft; }
         set { _isLeft = value; }
     }
-    
+
 
     private GameManager gm;
+    private PlayerSelection selection;
     private SpriteRenderer newSkin;
     private float newSpeed;
     #endregion
@@ -48,6 +44,7 @@ public class PlayerController : MonoBehaviour
             Destroy(gameObject);
         }
         this.gm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        this.selection = GameObject.FindGameObjectWithTag("GameManager").GetComponent<PlayerSelection>();
         this.newSkin = GetComponentInChildren<SpriteRenderer>();
     }
 
@@ -64,8 +61,18 @@ public class PlayerController : MonoBehaviour
     #region Configs Player
     private void ConfigsPlayer()
     {
-        this.newSkin.sprite = this._player.skinPlayer;
-        this.newSpeed = _player.speed;
+        // Player Selection
+        if (this.gm.instance.gameObject.GetComponent<PlayerSelection>().blueBall == true)
+        {
+            this.player = this.gm.instance.playerBlueSelect;
+        }
+        else if (this.gm.instance.gameObject.GetComponent<PlayerSelection>().greenBall == true)
+        {
+            this.player = this.gm.instance.playerGreenSelect;
+        }
+
+        this.newSkin.sprite = this.player.skinPlayer;
+        this.newSpeed = this.player.speed;
     }
     #endregion
 

@@ -16,15 +16,8 @@ public class GameManager : MonoBehaviour
     #region Variables Player Instance
     [SerializeField] private GameObject playerPrefab = null;
     private bool _isInstance = true;
-    public bool isInstance
-    {
-        get { return _isInstance; }
-        set { _isInstance = value; }
-    }
     #endregion
-    #region Variables Player Selection
-    private PlayerSelection playerSelection;
-    #endregion
+
     #region Variables Scene Names
     private string nameSceneMenu = "Menu";
     private string nameSceneGame = "Game";
@@ -63,6 +56,27 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    #region Select Player General
+    private PlayerSelection _select;
+    public PlayerSelection select
+    {
+        get { return _select; }
+        set { _select = value; }
+    }
+    [SerializeField] private Player _playerBlueSelect;
+    public Player playerBlueSelect
+    {
+        get { return _playerBlueSelect; }
+        set { _playerBlueSelect = value; }
+    }
+    [SerializeField] private Player _playerGreenSelect;
+        public Player playerGreenSelect
+    {
+        get { return _playerGreenSelect; }
+        set { _playerGreenSelect = value; }
+    }
+    #endregion
+
     #region Mono
     private void Awake()
     {
@@ -75,16 +89,34 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        if (SceneManager.GetActiveScene().name == "Menu")
+        {
+            _select = GameObject.Find("--ScriptsThisScene--").GetComponent<PlayerSelection>();
+        }
     }
 
     private void Update()
     {
         LoadPlayerInGame();
         HighScores();
+        if (SceneManager.GetActiveScene().name == "Menu")
+        {
+            _select = GameObject.Find("--ScriptsThisScene--").GetComponent<PlayerSelection>();
+        }
+        if (this._select.instance.blueBall == true)
+        {
+            this.gameObject.GetComponent<PlayerSelection>().blueBall = true;
+            this.gameObject.GetComponent<PlayerSelection>().greenBall = false;
+        }
+        else if (this._select.instance.greenBall == true)
+        {
+            this.gameObject.GetComponent<PlayerSelection>().greenBall = true;
+            this.gameObject.GetComponent<PlayerSelection>().blueBall = false;
+        }
     }
     #endregion
 
-    #region  Load Player in Game
+    #region Load Player in Game
     private void LoadPlayerInGame()
     {
         if (SceneManager.GetSceneByName(this.nameSceneGame).isLoaded && this._isInstance == true)
