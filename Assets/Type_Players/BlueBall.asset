@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _namePlayer: Blue Ball
   _skinPlayer: {fileID: 21300000, guid: dca566480dc38bf46a3de074e79fbc82, type: 3}
-  _speed: 0.8
+  _speed: 5

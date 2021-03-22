@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _namePlayer: Green Ball
   _skinPlayer: {fileID: 21300000, guid: 721c14a34637a8d4d9b514b9cf658e72, type: 3}
-  _speed: 1.2
+  _speed: 7
