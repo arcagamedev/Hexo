@@ -9,6 +9,7 @@ TagManager:
   - ScoreTrigger
   - GameManager
   - HighScores
+  - SpawnEnemy
   layers:
   - Default
   - TransparentFX

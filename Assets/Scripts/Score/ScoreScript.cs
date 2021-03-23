@@ -13,7 +13,15 @@ public class ScoreScript : MonoBehaviour
     private GameManager gm;
 
     [SerializeField] private Text scoreText = null;
-    private int score = 0;
+    [SerializeField] private Text scoreGameOverText = null;
+    [SerializeField] private Text highScoreGameOverText = null;
+    private int _score = 0;
+    public int score
+    {
+        get { return _score; }
+        set { _score = value; }
+    }
+    
     #endregion
 
     #region Mono Unity
@@ -33,14 +41,24 @@ public class ScoreScript : MonoBehaviour
     private void Update()
     {
         FindGameObject();
-        this.scoreText.text = score.ToString();
-        if (this.gm.instance.gameOver == true && this.score > this.gm.instance.highScores)
+
+        TextsScores();
+        if (this.gm.instance.gameOver == true && this._score > this.gm.instance.highScores)
         {
-            PlayerPrefs.SetInt("Scores", score);
+            PlayerPrefs.SetInt("Scores", _score);
         }
     }
     #endregion
 
+    #region  Texts Scores
+    private void TextsScores()
+    {
+        this.scoreText.text = _score.ToString();
+        this.scoreGameOverText.text = "Atual: " + _score.ToString();
+        this.highScoreGameOverText.text = "High Score: " + this.gm.instance.highScores.ToString();
+    }
+    #endregion
+    
     #region Find Game Object
     private void FindGameObject()
     {
@@ -51,7 +69,7 @@ public class ScoreScript : MonoBehaviour
     #region Up Score
     public void UpScore(int _scoreValue)
     {
-        this.score += _scoreValue;
+        this._score += _scoreValue;
     }
     #endregion
 }
