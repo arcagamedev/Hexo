@@ -3,10 +3,13 @@ using UnityEngine.SceneManagement;
 
 public class GameOver : MonoBehaviour
 {
-    private GameManager gm;
+	#region Variables
+	private GameManager gm;
     [SerializeField] private GameObject gameOver;
+	#endregion
 
-    private void Awake()
+	#region Mono
+	private void Awake()
     {
         this.gm = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
     }
@@ -18,8 +21,10 @@ public class GameOver : MonoBehaviour
             this.gameOver.SetActive(true);
         }
     }
+	#endregion
 
-    public void RestartGame()
+	#region Restart Game
+	public void RestartGame()
     {
         this.gm.instance.gameRestart = true;
         if (this.gm.instance.gameRestart == true)
@@ -29,4 +34,5 @@ public class GameOver : MonoBehaviour
             SceneManager.LoadScene(sceneName: "Game");
         }
     }
+	#endregion
 }

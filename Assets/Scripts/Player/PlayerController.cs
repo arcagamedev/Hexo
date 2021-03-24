@@ -10,7 +10,6 @@ public class PlayerController : MonoBehaviour
         get { return _instance; }
         set { _instance = value; }
     }
-
     private bool _isRight;
     public bool isRight
     {

@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     #region Variable Instance
-    //Instance this
+    //Instance this same Game Objeto for others scritps
     private static GameManager _instance;
     public GameManager instance
     {
@@ -99,20 +99,11 @@ public class GameManager : MonoBehaviour
     {
         LoadPlayerInGame();
         HighScores();
-        if (SceneManager.GetActiveScene().name == "Menu")
-        {
-            _select = GameObject.Find("--ScriptsThisScene--").GetComponent<PlayerSelection>();
-        }
-        if (this._select.instance.blueBall == true)
-        {
-            this.gameObject.GetComponent<PlayerSelection>().blueBall = true;
-            this.gameObject.GetComponent<PlayerSelection>().greenBall = false;
-        }
-        else if (this._select.instance.greenBall == true)
-        {
-            this.gameObject.GetComponent<PlayerSelection>().greenBall = true;
-            this.gameObject.GetComponent<PlayerSelection>().blueBall = false;
-        }
+        SelectPlayerManager();
+		if (SceneManager.GetSceneByName("Menu").isLoaded)
+		{
+            Time.timeScale = 1;
+		}
     }
     #endregion
 
@@ -136,10 +127,30 @@ public class GameManager : MonoBehaviour
             this._gameRestart = false;
         }
     }
-    #endregion
+	#endregion
 
-    #region High Scores
-    private void HighScores()
+	#region Select Player Manager
+	private void SelectPlayerManager()
+	{
+        if (SceneManager.GetActiveScene().name == "Menu")
+        {
+            _select = GameObject.Find("--ScriptsThisScene--").GetComponent<PlayerSelection>();
+        }
+        if (this._select.instance.blueBall == true)
+        {
+            this.gameObject.GetComponent<PlayerSelection>().blueBall = true;
+            this.gameObject.GetComponent<PlayerSelection>().greenBall = false;
+        }
+        else if (this._select.instance.greenBall == true)
+        {
+            this.gameObject.GetComponent<PlayerSelection>().greenBall = true;
+            this.gameObject.GetComponent<PlayerSelection>().blueBall = false;
+        }
+    }
+	#endregion
+
+	#region High Scores
+	private void HighScores()
     {
         this._highScores = PlayerPrefs.GetInt("Scores", this.valueHighScores);
     }
